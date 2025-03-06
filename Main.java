@@ -8,17 +8,19 @@ public class Main {
         int chosenAlgo = chooseAlgo();
 
         if (chosenAlgo == 1){
-            // MLQ Goes here
+            // MLQ Goes here, edit the function below
+            chosenMLQ();
         }
         else if (chosenAlgo == 2){
-            // Priority Queue goes here
+            // Priority Queue goes here, edit the function below
+            chosenPriorityQueue();
         }
         else{
             // Invalid input goes here
         }
     }
 
-    
+
     public static int chooseAlgo(){
 
         // Ask user to choose algorithm
@@ -27,5 +29,14 @@ public class Main {
         int chosenAlgo = scanner.nextInt();
 
         return chosenAlgo;
+    }
+
+    public static void chosenMLQ(){
+        MLQ mlq = new MLQ();
+        mlq.initialize();
+    }
+
+    public static void chosenPriorityQueue(){
+
     }
 }
