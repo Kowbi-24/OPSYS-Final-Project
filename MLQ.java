@@ -13,7 +13,7 @@ public class MLQ {
 
     Scanner scanner = new Scanner(System.in);
 
-    private Map<Integer, Integer> algoMap; // <Queue Num, AlgoNum>
+    private Map<Integer, Integer> algoMap = new HashMap<Integer,Integer>(); // <Queue Num, AlgoNum>
     private int numOfQueues;
 
     MLQ(){
@@ -22,12 +22,17 @@ public class MLQ {
 
 
     public void initialize(){
-        System.out.println("=== INITIALIZING MLQ =====");
+        System.out.println("=== INITIALIZING MLQ =====");   
         System.out.print("- Input Number of Queues: ");
         numOfQueues = Integer.parseInt(scanner.nextLine());
+        System.out.println("|=================================|");
+        System.out.println("| [1]FCFS  [2]Round Robin  [3]SRT |");
+        System.out.println("|=================================|");
 
         for (int i=0; i<numOfQueues; i++){
-            System.out.printf("- Choose Algorithm for (QUEUE %s)", i);
+            System.out.printf("- [QUEUE %s] ALGORITHM: ", i);
+            int chosenAlgo = scanner.nextInt();
+            algoMap.put(i, chosenAlgo);
         }
     }
 
