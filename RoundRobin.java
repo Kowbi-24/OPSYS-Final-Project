@@ -62,12 +62,8 @@ public class RoundRobin{
                     }
             
                     System.out.print("]\n");
-
                     
                 }
-
-                
-                
             }
 
         }
