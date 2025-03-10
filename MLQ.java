@@ -6,15 +6,14 @@ public class MLQ {
 
     /*
      * Algorithm Numbers
-     * [1] FCFS
-     * [2] Round Robin
-     * [3] SRT
+     * [1] Round Robin
+     * [2] SRT
+     * [3] FCFS
      */
 
     Scanner scanner = new Scanner(System.in);
 
-    private Map<Integer, Integer> algoMap = new HashMap<Integer,Integer>(); // <Queue Num, AlgoNum>
-    private int numOfQueues;
+    List<Process> listProcesses = new ArrayList<Process>();
 
     MLQ(){
 
@@ -22,18 +21,33 @@ public class MLQ {
 
 
     public void initialize(){
-        System.out.println("=== INITIALIZING MLQ =====");   
-        System.out.print("- Input Number of Queues: ");
-        numOfQueues = Integer.parseInt(scanner.nextLine());
-        System.out.println("===================================");
-        System.out.println("| [1]FCFS  [2]Round Robin  [3]SRT |");
-        System.out.println("===================================");
+        System.out.println("\nThe MLQ Simulation implements the following algorithms for the different queues:");
+        System.out.println("==============================================");
+        System.out.println("| QUEUE # 1 | Round-Robin                    |");
+        System.out.println("| QUEUE # 2 | (SRT) Shortest-Remaining-Time  |");
+        System.out.println("| QUEUE # 3 | (FCFS) First-Come-First-Served |");
+        System.out.println("==============================================");
+        System.out.print("Press ENTER to continue...");
+        scanner.nextLine();
 
-        for (int i=0; i<numOfQueues; i++){
-            System.out.printf("- [QUEUE %s] ALGORITHM: ", i);
-            int chosenAlgo = scanner.nextInt();
-            algoMap.put(i, chosenAlgo);
+        // User inputs data
+        boolean createNewProcess = true;
+        System.out.println("\nINPUT DATA FOR THE PROCESSES");
+
+        int currentProcessID = 0; // Increments every new process
+        while (createNewProcess){
+            Process newProcess = new Process(currentProcessID);
+            newProcess.inputData(true);
+
+            listProcesses.add(newProcess);
+            currentProcessID++;
+
+            System.out.print("Create another process? [Y/N]: ");
+            createNewProcess = (scanner.nextLine().toUpperCase() == "Y");
+
         }
+
+
     }
 
 }
