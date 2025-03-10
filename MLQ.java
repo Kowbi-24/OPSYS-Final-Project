@@ -43,10 +43,20 @@ public class MLQ {
             currentProcessID++;
 
             System.out.print("Create another process? [Y/N]: ");
-            createNewProcess = (scanner.nextLine().toUpperCase() == "Y");
-
+            createNewProcess = (scanner.nextLine().toUpperCase().equalsIgnoreCase("Y"));
         }
 
+        int timeQuantum = 4;
+
+        List<Process> debugListProcesses = new ArrayList<>();
+        debugListProcesses.add(new Process(0, 10, 0, 1));
+        debugListProcesses.add(new Process(1, 4, 5, 1));
+        debugListProcesses.add(new Process(2, 5, 7, 1));
+        debugListProcesses.add(new Process(3, 7, 9, 1));
+        debugListProcesses.add(new Process(4, 8, 10, 1));
+
+        RoundRobin rr = new RoundRobin(debugListProcesses, timeQuantum);
+        rr.start();
 
     }
 
