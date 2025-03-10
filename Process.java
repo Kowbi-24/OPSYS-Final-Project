@@ -24,10 +24,10 @@ public class Process{
         this.arrivalTime = scanner.nextInt(); scanner.nextLine();
 
         if (isMLQ){
-            System.out.print("Queue Number [1-3]: ");
+            System.out.print("\tQueue Number [1-3]: ");
             this.priorityLevel = scanner.nextInt(); scanner.nextLine();
         } else{
-            System.out.print("Priority Level: ");
+            System.out.print("\tPriority Level: ");
             this.priorityLevel = scanner.nextInt(); scanner.nextLine();
         }
     }
