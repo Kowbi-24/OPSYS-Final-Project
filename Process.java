@@ -1,16 +1,43 @@
 // DO NOT EDIT!!!
 
+import java.util.*;
+
 public class Process{
     
-    private int burstTime, arrivalTime, priorityLevel, waitingTime, turnAroundTime, responseTime;
+    Scanner scanner = new Scanner(System.in);
+    private int processID, burstTime, arrivalTime, priorityLevel, waitingTime, turnAroundTime, responseTime;
 
-    Process(int burstTime, int arrivalTime, int priorityLevel){
+    Process(int processID, int burstTime, int arrivalTime, int priorityLevel){
+        this.processID = processID;
         this.burstTime = burstTime;
         this.arrivalTime = arrivalTime;
         this.priorityLevel = priorityLevel;
     }
 
+    public void inputData(boolean isMLQ){
+        System.out.printf("\nINPUT DATA FOR %s", processID);
+
+        System.out.print("\tBurst Time: ");
+        this.burstTime = scanner.nextInt(); scanner.nextLine();
+
+        System.out.print("\tArrival Time: ");
+        this.arrivalTime = scanner.nextInt(); scanner.nextLine();
+
+        if (isMLQ){
+            System.out.print("Queue Number [1-3]: ");
+            this.priorityLevel = scanner.nextInt(); scanner.nextLine();
+        } else{
+            System.out.print("Priority Level: ");
+            this.priorityLevel = scanner.nextInt(); scanner.nextLine();
+        }
+    }
+
     // Getter Methods
+
+    public int getProcessID(){
+        return processID;
+    }
+
     public int getArrivalTime() {
         return arrivalTime;
     }
@@ -37,6 +64,10 @@ public class Process{
     }
 
     // Setter Methods
+    public void setProcessID(int processID) {
+        this.processID = processID;
+    }
+
     public void setArrivalTime(int arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
