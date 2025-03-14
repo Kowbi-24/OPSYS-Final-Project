@@ -5,7 +5,7 @@ import java.util.*;
 public class Process{
     
     Scanner scanner = new Scanner(System.in);
-    private int processID, burstTime, arrivalTime, priorityLevel, waitingTime, turnAroundTime, responseTime;
+    private int processID, burstTime, arrivalTime, priorityLevel, waitingTime, turnAroundTime, responseTime, completionTime;
 
     Process (int processID){
         this.processID = processID;
@@ -62,8 +62,11 @@ public class Process{
     }
 
     public int getResponseTime() {
-        return responseTime
-        ;
+        return responseTime;
+    }
+    
+    public int getCompetionTime(){
+        return completionTime;
     }
 
     // Setter Methods
@@ -93,5 +96,9 @@ public class Process{
 
     public void setResponseTime(int responseTime) {
         this.responseTime = responseTime;
+    }
+
+    public void setCompletionTime(int completionTime){
+        this.completionTime = completionTime;
     }
 }

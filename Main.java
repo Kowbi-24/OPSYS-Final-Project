@@ -37,6 +37,7 @@ public class Main {
     }
 
     public static void chosenPriorityQueue(){
-        
+        PriorityQueue pq = new PriorityQueue();
+        pq.initializePriority();
     }
 }
