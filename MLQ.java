@@ -12,8 +12,8 @@ public class MLQ {
      */
 
     Scanner scanner = new Scanner(System.in);
-
     List<Process> listProcesses = new ArrayList<Process>();
+    final boolean debug = true; // SET TRUE IF USING DEBUG PROCESS LIST
 
     MLQ(){
 
@@ -21,7 +21,8 @@ public class MLQ {
 
 
     public void initialize(){
-        System.out.println("\nThe MLQ Simulation implements the following algorithms for the different queues:");
+        if (!debug)
+        {System.out.println("\nThe MLQ Simulation implements the following algorithms for the different queues:");
         System.out.println("==============================================");
         System.out.println("| QUEUE # 1 | Round-Robin                    |");
         System.out.println("| QUEUE # 2 | (SRT) Shortest-Remaining-Time  |");
@@ -44,19 +45,25 @@ public class MLQ {
 
             System.out.print("Create another process? [Y/N]: ");
             createNewProcess = (scanner.nextLine().toUpperCase().equalsIgnoreCase("Y"));
-        }
+        }}
 
-        int timeQuantum = 4;
+        
 
         List<Process> debugListProcesses = new ArrayList<>();
-        debugListProcesses.add(new Process(0, 10, 0, 1));
-        debugListProcesses.add(new Process(1, 4, 5, 1));
-        debugListProcesses.add(new Process(2, 5, 7, 1));
-        debugListProcesses.add(new Process(3, 7, 9, 1));
+        debugListProcesses.add(new Process(0, 10, 10, 1));
+        debugListProcesses.add(new Process(1, 4, 2, 1));
+        debugListProcesses.add(new Process(2, 5, 3, 1));
+        debugListProcesses.add(new Process(3, 7, 4, 1));
         debugListProcesses.add(new Process(4, 8, 10, 1));
 
-        RoundRobin rr = new RoundRobin(debugListProcesses, timeQuantum);
-        rr.start();
+        // FOR DEBUGGING
+        //int timeQuantum = 4;
+        //RoundRobin rr = new RoundRobin(debugListProcesses, timeQuantum);
+        //rr.start();
+
+        // FOR DEBUGGING
+        FCFS fcfs = new FCFS(debugListProcesses);
+        fcfs.start();
 
     }
 

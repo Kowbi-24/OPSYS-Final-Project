@@ -37,6 +37,6 @@ public class Main {
     }
 
     public static void chosenPriorityQueue(){
-
+        
     }
 }

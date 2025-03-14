@@ -36,7 +36,7 @@ public class RoundRobin{
 
                 // Deduct the time quantum from the current process' burst time
                 currentProcess.setBurstTime(currentProcess.getBurstTime() - timeQuantum);
-                System.out.printf("[SYSTEM : Cycle %s] Processed Process[%s] | Remaining Burst Time: %s\n",cpuCycle ,currentProcess.getProcessID(), currentProcess.getBurstTime());
+                System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Processed Process[%s] | Remaining Burst Time: %s\n",cpuCycle ,currentProcess.getProcessID(), currentProcess.getBurstTime());
 
                 // Add current process to order process
                 orderProcess.add(currentProcess);
@@ -45,7 +45,7 @@ public class RoundRobin{
                 if (currentProcess.getBurstTime() <= 0){
                     processesInCPU.remove(i);
                     listProcess.remove(currentProcess);
-                    System.out.printf("[SYSTEM : Cycle %s] Removed Process[%s] from CPU\n",cpuCycle ,currentProcess.getProcessID());
+                    System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Removed Process[%s] from CPU\n",cpuCycle ,currentProcess.getProcessID());
                 }
                 else{ // If process not removed, put it to the end of the processesInCPU
                     
@@ -54,7 +54,7 @@ public class RoundRobin{
                     // Put the item in index 0 to the last index
                     Process firstProcess = processesInCPU.remove(0);
                     processesInCPU.add(firstProcess);
-                    System.out.printf("[SYSTEM : Cycle %s] Moved Process[%s] to end of list | New order: [",cpuCycle ,currentProcess.getProcessID());
+                    System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Moved Process[%s] to end of list | New order: [",cpuCycle ,currentProcess.getProcessID());
 
                     for (Process currrentProcess : processesInCPU){
                         System.out.print(currrentProcess.getProcessID());
@@ -73,7 +73,7 @@ public class RoundRobin{
 
 
     public void printProcessesInCPU(List<Process> processesInCPU, int cpuCycle){
-        System.out.printf("[SYSTEM : Cycle %s] Proccesses in CPU: [", cpuCycle);
+        System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Proccesses in CPU: [", cpuCycle);
 
         for (Process currrentProcess : processesInCPU){
             System.out.print(currrentProcess.getProcessID());
@@ -102,7 +102,7 @@ public class RoundRobin{
             if (currentProcess.getArrivalTime() <= cpuCycle){
                 // GOODLUCK KIM!!!
                 if (!processesInCPU.contains(currentProcess)){
-                    System.out.printf("[SYSTEM : Cycle %s] Added Process[%s] to CPU | ",cpuCycle ,currentProcess.getProcessID());
+                    System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Added Process[%s] to CPU | ",cpuCycle ,currentProcess.getProcessID());
                     processesInCPU.add(currentProcess);
 
                     // Print new process list
