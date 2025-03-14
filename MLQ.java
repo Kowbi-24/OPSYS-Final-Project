@@ -50,11 +50,11 @@ public class MLQ {
         
 
         List<Process> debugListProcesses = new ArrayList<>();
-        debugListProcesses.add(new Process(0, 10, 10, 1));
+        debugListProcesses.add(new Process(0, 10, 0, 1));
         debugListProcesses.add(new Process(1, 4, 2, 1));
-        debugListProcesses.add(new Process(2, 5, 3, 1));
+        debugListProcesses.add(new Process(2, 1, 3, 1));
         debugListProcesses.add(new Process(3, 7, 4, 1));
-        debugListProcesses.add(new Process(4, 8, 10, 1));
+        debugListProcesses.add(new Process(4, 8, 5, 1));
 
         // FOR DEBUGGING
         //int timeQuantum = 4;
@@ -62,8 +62,12 @@ public class MLQ {
         //rr.start();
 
         // FOR DEBUGGING
-        FCFS fcfs = new FCFS(debugListProcesses);
-        fcfs.start();
+        //FCFS fcfs = new FCFS(debugListProcesses);
+        //fcfs.start();
+
+        // FOR DEBUGGING
+        SRT srt = new SRT(debugListProcesses);
+        srt.start();
 
     }
 
