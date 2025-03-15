@@ -6,9 +6,9 @@ public class PriorityQueue
 {
     static Scanner scanner = new Scanner(System.in);
 
-    List<Process> listProcesses;
+    List<Process> listProcesses = new ArrayList<Process>();
     int completedCount, cpuTime = 0;
-    double totalTurnAroundTime, totalWaitingTime = 0.0;
+    double avgTurnAroundTime, avgWaitingTime = 0.0;
     
     PriorityQueue() {
 
@@ -19,18 +19,19 @@ public class PriorityQueue
     } 
 
     public void initializePriority() {
-        /*
+        
         System.out.println("\nThe Priority Simulation starts now:");
         System.out.println("Press ENTER to continue...");
         scanner.nextLine();
 
         boolean createNewProcess = true;
-        System.out.println("\n INPUT DATA FOR THE PROCESSES");
+        System.out.println("\nINPUT DATA FOR THE PROCESSES");
 
         int currentProcessID = 0;
         while (createNewProcess){
             Process newProcess = new Process(currentProcessID);
-            newProcess.inputData(true);
+            // Input data for priority queue
+            newProcess.inputData(false);
 
             listProcesses.add(newProcess);
             currentProcessID++;
@@ -38,8 +39,8 @@ public class PriorityQueue
             System.out.print("Create another process? [Y/N]: ");
             createNewProcess = (scanner.nextLine().toUpperCase().equalsIgnoreCase("Y"));
         }
-        */
-
+        
+        /*
         List<Process> debugListProcesses = new ArrayList<>();
         debugListProcesses.add(new Process(0, 2, 1, 5));
         debugListProcesses.add(new Process(1, 3, 2, 3));
@@ -47,6 +48,9 @@ public class PriorityQueue
         debugListProcesses.add(new Process(3, 10, 4, 1));
 
         PriorityQueue pq = new PriorityQueue(debugListProcesses);
+        */
+
+        PriorityQueue pq = new PriorityQueue(listProcesses);
         pq.start();
     }
 
@@ -102,7 +106,7 @@ public class PriorityQueue
         // Sort list by arrival time 
         sortProcessesByArrivalAndPriority(sortedProcess);
 
-        // Check if all process list have completed getting completion, turnaround, and wating time.
+        // Check if all process list have completed.
         boolean[] completedRun = new boolean[listProcesses.size()];
 
         // Loop the process list
@@ -120,59 +124,55 @@ public class PriorityQueue
                 }
             }
 
-            // If process with highest priority is found, calculate completion time, turnaround time, and waiting time process. 
-            // Else, increment cpu cycle until process is found.
+            // If no process is arriving yet, increment cpu time until process is found.
+            // Else, process with highest priority is found, calculate completion time, turnaround time, and waiting time process. 
             if (indexProcess == -1) {
                 cpuTime++;
             } else {
+                
+                // Calculate completion, turnaround, waiting time in the process index.
+                completionTime = calculateCompletionTimeProcess(cpuTime, sortedProcess[indexProcess].getBurstTime());
+                sortedProcess[indexProcess].setCompletionTime(completionTime);
 
-                // TANONG MO KAY BEKO ABOUT DITO ------------------------------------------------------------------
+                turnAroundTime = calculateTurnAroundTimeProcess(completionTime, sortedProcess[indexProcess].getArrivalTime());
+                avgTurnAroundTime+=turnAroundTime;
+                sortedProcess[indexProcess].setTurnAroundTime(turnAroundTime);
 
-                Process proc = sortedProcess[indexProcess];
-                completionTime = getCompletionTimeProcess(cpuTime, proc.getBurstTime());
-                proc.setCompletionTime(completionTime);
-
-                turnAroundTime = getTurnAroundTimeProcess(completionTime, proc.getArrivalTime());
-                totalTurnAroundTime+=turnAroundTime;
-                proc.setTurnAroundTime(turnAroundTime);
-
-                waitingTime = getWaitingTimeProcess(proc.getTurnAroundTime(), proc.getBurstTime());
-                totalWaitingTime+=waitingTime;
-                proc.setWaitingTime(waitingTime);
-
-                // -------------------------------------------------------------------------------------------------
+                waitingTime = calculateWaitingTimeProcess(sortedProcess[indexProcess].getTurnAroundTime(), sortedProcess[indexProcess].getBurstTime());
+                avgWaitingTime+=waitingTime;
+                sortedProcess[indexProcess].setWaitingTime(waitingTime);
             
-                cpuTime = proc.getCompetionTime();
+                cpuTime = sortedProcess[indexProcess].getCompetionTime();
                 completedRun[indexProcess] = true;
-                completedCount++; // Increment count until all process are done
+                completedCount++; // Increment completed count until all process are done
             }
         }
         
         // Display priority table
         displayPriorityTable(sortedProcess);
 
-        // Get average turn around and waiting time
-        System.out.println("\nAverage Turnaround Time: " + getAverageTurnAroundTime(totalTurnAroundTime, listProcesses.size()));
-        System.out.println("Average Turnaround Time: " + getAverageWaitingTime(totalWaitingTime, listProcesses.size()));
+        // Get average turnaround and waiting time
+        System.out.println("\nAverage Turnaround Time: " + calculateAverageTurnAroundTime(avgTurnAroundTime, listProcesses.size()));
+        System.out.println("Average Turnaround Time: " + calculateAverageWaitingTime(avgWaitingTime, listProcesses.size()));
 
         // Display gantt chart
         displayGanttChart(Arrays.asList(sortedProcess));
     }
 
-    public double getAverageTurnAroundTime(double totalTurnAroundTime, int numProcess) {
+    public double calculateAverageTurnAroundTime(double totalTurnAroundTime, int numProcess) {
         return totalTurnAroundTime/numProcess;
     }
-    public double getAverageWaitingTime(double totalWaitingTime, int numProcess) {
+    public double calculateAverageWaitingTime(double totalWaitingTime, int numProcess) {
         return totalWaitingTime/numProcess;
     }
 
-    public int getCompletionTimeProcess(int cpuTime, int burstTime){
+    public int calculateCompletionTimeProcess(int cpuTime, int burstTime){
         return cpuTime + burstTime;
     }
-    public int getTurnAroundTimeProcess(int completionTime, int arrivalTime){
+    public int calculateTurnAroundTimeProcess(int completionTime, int arrivalTime){
         return completionTime - arrivalTime;
     }
-    public int getWaitingTimeProcess(int turnAroundTime, int burstTime){
+    public int calculateWaitingTimeProcess(int turnAroundTime, int burstTime){
         return turnAroundTime - burstTime;
     }
 }
