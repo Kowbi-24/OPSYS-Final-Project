@@ -4,19 +4,18 @@ import java.util.*;
 
 public class RoundRobin{
     final List<Process> listProcess;
-    List<Process> orderProcess = new ArrayList<>();
+    List<Process> listProcessCopy = new ArrayList<>();
     List<Process> processesInCPU = new ArrayList<>();
     List<Process> finalGanttChart;
+    Process currProcess;
     private int timeQuantum;
     private int localCycle = 0;
-
-
 
     RoundRobin(List<Process> listProcesses, int timeQuantum, List<Process> finalGanttChart){
         this.listProcess = listProcesses;
         this.timeQuantum = timeQuantum;
         this.finalGanttChart = finalGanttChart;
-
+        this.listProcessCopy.addAll(listProcesses);
         this.processesInCPU = this.checkForNewProceses(0, processesInCPU);
     }
 
@@ -32,43 +31,48 @@ public class RoundRobin{
             // Reset the local cycle
             localCycle = 0;
 
-            orderProcess.add(processesInCPU.get(0));
-            
-
             System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Moving Process[%s] to end of queue\n",cpuCycle ,processesInCPU.get(0).getProcessID());
 
             // Move the first process to the end as the time quantum cycle has finished
-            listProcess.remove(processesInCPU.get(0));
+            listProcessCopy.remove(processesInCPU.get(0));
             Process temp = processesInCPU.get(0);
             processesInCPU.remove(0);
             processesInCPU.add(temp);
-            listProcess.add(temp);
+            listProcessCopy.add(temp);
 
         }
 
         // Get the current process
         Process currProcess = processesInCPU.get(0);
+        this.currProcess = currProcess;
         finalGanttChart.add(currProcess);
-        System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Starting Process[%s] | Remaining Time: %s | List Order: |",cpuCycle ,currProcess.getProcessID(), currProcess.getBurstTime());
+        System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Starting Process[%s] | Remaining Time: %s | List Order: |",cpuCycle ,currProcess.getProcessID(), currProcess.getRemainingBurstTime());
         printListOrder();
 
+        // Update response time
+        if (currProcess.getResponseTime() < 0){
+            currProcess.setResponseTime(cpuCycle);
+        }
+
         // Update the burst time
-        currProcess.setBurstTime(currProcess.getBurstTime() - 1);
+        currProcess.setRemainingBurstTime(currProcess.getRemainingBurstTime() - 1);
 
         // Check if process is done
-        if (currProcess.getBurstTime() <= 0){
+        if (currProcess.getRemainingBurstTime() <= 0){
             System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Finished Process[%s]\n",cpuCycle+1 ,currProcess.getProcessID());
-            listProcess.remove(processesInCPU.get(0));
+            currProcess.setFinished(true);
+            currProcess.setCompletionTime(cpuCycle+1);
+            currProcess.computeTurnAroundTime();
+            listProcessCopy.remove(processesInCPU.get(0));
             processesInCPU.remove(0);
         }
 
-        
         processesInCPU = checkForNewProceses(cpuCycle, processesInCPU);
-
         localCycle += 1;
     }
+    
 
-
+    // To be used for system messages
     public void printListOrder(){
         for (Process process : processesInCPU){
             System.out.printf("%s|", process.getProcessID());
@@ -77,35 +81,12 @@ public class RoundRobin{
     }
 
 
-    
-
-    public void printProcessesInCPU(List<Process> processesInCPU, int cpuCycle){
-        System.out.printf("[SYSTEM | ROUND ROBIN : Cycle %s] Proccesses in CPU: [", cpuCycle);
-
-        for (Process currrentProcess : processesInCPU){
-            System.out.print(currrentProcess.getProcessID());
-            System.out.print(", ");
-        }
-
-        System.out.print("]\n");
-    }
-
-    public void printGanttChart(){
-        System.out.print("[ROUND ROBIN] GANTT CHART: |");
-
-        for (Process currentProcess : orderProcess){
-            System.out.printf("%s|", currentProcess.getProcessID());
-        }
-
-        System.out.println();
-    }
-
-
+    // Function to update the "processesInCPU" with arrived processes
     public List<Process> checkForNewProceses(int cpuCycle, List<Process> processesInCPU){
         
         // Iterate listProcess
-        for (int i=0; i<listProcess.size(); i++){
-            Process currentProcess = listProcess.get(i);
+        for (int i=0; i<listProcessCopy.size(); i++){
+            Process currentProcess = listProcessCopy.get(i);
 
             // Check if process has arrived
             if (currentProcess.getArrivalTime() <= cpuCycle){
@@ -127,15 +108,13 @@ public class RoundRobin{
     }
 
 
-
-
-    
-
-
-
     // Getter Methods
     public int getTimeQuantum() {
         return timeQuantum;
+    }
+
+    public Process getCurrProcess(){
+        return this.currProcess;
     }
 
     // Setter Methods

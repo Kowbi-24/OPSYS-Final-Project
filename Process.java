@@ -5,7 +5,9 @@ import java.util.*;
 public class Process{
     
     Scanner scanner = new Scanner(System.in);
-    private int processID, burstTime, arrivalTime, priorityLevel, waitingTime, turnAroundTime, responseTime, completionTime;
+    private int processID, burstTime, arrivalTime, priorityLevel, waitingTime, turnAroundTime, completionTime, remainingBurstTime;
+    private int responseTime = -1;
+    private boolean finished = false;
 
     Process (int processID){
         this.processID = processID;
@@ -16,6 +18,7 @@ public class Process{
         this.burstTime = burstTime;
         this.arrivalTime = arrivalTime;
         this.priorityLevel = priorityLevel;
+        this.remainingBurstTime = burstTime;
     }
 
     public void inputData(boolean isMLQ){
@@ -35,6 +38,15 @@ public class Process{
             this.priorityLevel = scanner.nextInt(); scanner.nextLine();
         }
     }
+
+    public void incrementWaitingTime(){
+        this.waitingTime+=1;
+    }
+
+    public void computeTurnAroundTime(){
+        this.turnAroundTime = (this.completionTime - this.arrivalTime);
+    }
+
 
     // Getter Methods
     public int getProcessID(){
@@ -69,6 +81,14 @@ public class Process{
         return completionTime;
     }
 
+    public boolean getFinished(){
+        return finished;
+    }
+
+    public int getRemainingBurstTime(){
+        return this.remainingBurstTime;
+    }
+
     // Setter Methods
     public void setProcessID(int processID) {
         this.processID = processID;
@@ -100,5 +120,13 @@ public class Process{
 
     public void setCompletionTime(int completionTime){
         this.completionTime = completionTime;
+    }
+
+    public void setFinished(boolean finished){
+        this.finished = finished;
+    }
+
+    public void setRemainingBurstTime(int remainingBurstTime){
+        this.remainingBurstTime = remainingBurstTime;
     }
 }

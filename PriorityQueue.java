@@ -20,12 +20,13 @@ public class PriorityQueue
 
     public void initializePriority() {
         
-        System.out.println("\nThe Priority Simulation starts now:");
+        System.out.println("\n==============================================");
+        System.out.println(  "|        PRIORITY QUEUE SIMULATION           |");
+        System.out.println(  "==============================================");
         System.out.println("Press ENTER to continue...");
         scanner.nextLine();
 
         boolean createNewProcess = true;
-        System.out.println("\nINPUT DATA FOR THE PROCESSES");
 
         int currentProcessID = 0;
         while (createNewProcess){
@@ -36,7 +37,7 @@ public class PriorityQueue
             listProcesses.add(newProcess);
             currentProcessID++;
 
-            System.out.print("Create another process? [Y/N]: ");
+            System.out.print(">> Create another process? [Y/N]: ");
             createNewProcess = (scanner.nextLine().toUpperCase().equalsIgnoreCase("Y"));
         }
         
@@ -70,11 +71,19 @@ public class PriorityQueue
     }
 
     public void displayPriorityTable(Process[] listProcesses){
-        System.out.println("\n|Process\t|Arrival\t|Burst\t\t|Priority\t\t|Completion\t\t|Turnaround\t\t|Waiting");
-        for (Process p : listProcesses) {
-            System.out.println("|" + p.getProcessID() + "\t\t|" + p.getArrivalTime() + "\t\t|" + p.getBurstTime() + "\t\t|" + p.getPriorityLevel() + "\t\t\t|"
-                    + p.getCompetionTime() + "\t\t\t|" + p.getTurnAroundTime() + "\t\t\t|" + p.getWaitingTime());
+        System.out.println();
+        System.out.println("=================================================================================================================");
+        System.out.printf ("||                                                   TABLE                                                     ||\n");
+        System.out.println("=================================================================================================================");
+        System.out.println("||       ID     | Burst Time | Arrival Time | Waiting Time | Turnaround Time | Response Time | Completion Time ||");
+        System.out.println("||-------------------------------------------------------------------------------------------------------------||");
+        for (Process currProcess : listProcesses){
+            System.out.printf("|| PROCESS # %2.2s |     %3.3s    |      %3.3s     |      %3.3s     |        %3.3s      |      %3.3s      |       %3.3s       ||\n", currProcess.getProcessID(), currProcess.getBurstTime(), currProcess.getArrivalTime(),currProcess.getWaitingTime(),currProcess.getTurnAroundTime(), currProcess.getResponseTime(), currProcess.getCompetionTime());
         }
+        System.out.println("=================================================================================================================");
+        System.out.println();
+
+
     }
 
     public void displayGanttChart(List<Process> processes) {
@@ -129,6 +138,11 @@ public class PriorityQueue
             if (indexProcess == -1) {
                 cpuTime++;
             } else {
+
+                // Update response time
+                if (listProcesses.get(indexProcess).getResponseTime() < 0){
+                    listProcesses.get(indexProcess).setResponseTime(cpuTime);
+                }
                 
                 // Calculate completion, turnaround, waiting time in the process index.
                 completionTime = calculateCompletionTimeProcess(cpuTime, sortedProcess[indexProcess].getBurstTime());
@@ -153,7 +167,7 @@ public class PriorityQueue
 
         // Get average turnaround and waiting time
         System.out.println("\nAverage Turnaround Time: " + calculateAverageTurnAroundTime(avgTurnAroundTime, listProcesses.size()));
-        System.out.println("Average Turnaround Time: " + calculateAverageWaitingTime(avgWaitingTime, listProcesses.size()));
+        System.out.println("Average Waiting Time: " + calculateAverageWaitingTime(avgWaitingTime, listProcesses.size()));
 
         // Display gantt chart
         displayGanttChart(Arrays.asList(sortedProcess));
