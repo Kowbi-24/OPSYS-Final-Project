@@ -171,6 +171,9 @@ public class PriorityQueue
 
         // Display gantt chart
         displayGanttChart(Arrays.asList(sortedProcess));
+
+        System.out.print("Press ENTER to continue...");
+        scanner.nextLine();
     }
 
     public double calculateAverageTurnAroundTime(double totalTurnAroundTime, int numProcess) {

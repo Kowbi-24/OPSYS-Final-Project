@@ -5,18 +5,22 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        int chosenAlgo = chooseAlgo();
 
-        if (chosenAlgo == 1){
-            // MLQ Goes here, edit the function below
-            chosenMLQ();
-        }
-        else if (chosenAlgo == 2){
-            // Priority Queue goes here, edit the function below
-            chosenPriorityQueue();
-        }
-        else{
-            // Invalid input goes here
+        while (true){
+            int chosenAlgo = chooseAlgo();
+
+            if (chosenAlgo == 1){
+                // MLQ Goes here, edit the function below
+                chosenMLQ();
+            }
+            else if (chosenAlgo == 2){
+                // Priority Queue goes here, edit the function below
+                chosenPriorityQueue();
+            }
+            else if (chosenAlgo == 3){
+                System.out.println(">> EXITING PROGRAM...");
+                break;
+            }
         }
     }
 
@@ -24,7 +28,7 @@ public class Main {
     public static int chooseAlgo(){
 
         // Ask user to choose algorithm
-        System.out.println("[1] MLQ     [2] Priority Queue");
+        System.out.println("[1] MLQ     [2] Priority Queue   [3] EXIT PROGRAM");
         System.out.print("Choose Algorithm: ");
         int chosenAlgo = scanner.nextInt();
 

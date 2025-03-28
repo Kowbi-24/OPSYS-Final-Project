@@ -80,6 +80,9 @@ public class MLQ {
         displayAllQueues();
         start();
         displayProcessStatistics();
+        
+        System.out.print("Press ENTER to continue...");
+        scanner.nextLine();
 
     }
 
