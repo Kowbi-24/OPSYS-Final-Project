@@ -53,6 +53,7 @@ public class MLQ {
         while (createNewProcess){
             Process newProcess = new Process(currentProcessID);
             newProcess.inputData(true);
+            newProcess.setRemainingBurstTime(newProcess.getBurstTime());
 
             // TODO: Add to appropriate list
 
@@ -159,7 +160,6 @@ public class MLQ {
 
 
          for (Process process : queue){
-            System.out.printf("[%s] Checking if valid Process [%s]", cpuCycle, process.getProcessID());
             if (process.getArrivalTime() <= cpuCycle && !process.getFinished()){
                 isValid = true;
                 break;
