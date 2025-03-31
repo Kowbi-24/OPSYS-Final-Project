@@ -31,13 +31,15 @@ public class FCFS {
         // Update the burst time
         currProcess.setRemainingBurstTime(currProcess.getRemainingBurstTime() - 1);
 
+        // Update gantt chart
+        finalGanttChart.add(currProcess);
+
         // Increment CPU cycle by 1
         cpuCycle += 1;
 
         // Set process as finished
         if (currProcess.getRemainingBurstTime() <= 0){
             orderProcess.add(currProcess);
-            finalGanttChart.add(currProcess);
             currProcess.setFinished(true);
             currProcess.setCompletionTime(cpuCycle);
             currProcess.computeTurnAroundTime();
